@@ -1,7 +1,5 @@
 import type { Changeset } from "../../types";
 import { type FetchOptions, osmFetch } from "../_osmFetch";
-import type { RawChangeset } from "../_rawResponse";
-import { mapRawChangeset } from "./getChangesets";
 
 /** Add a comment to a changeset. The changeset must be closed. */
 export async function createChangesetComment(
@@ -9,7 +7,7 @@ export async function createChangesetComment(
   commentText: string,
   options?: FetchOptions
 ): Promise<Changeset> {
-  const result = await osmFetch<{ changeset: RawChangeset }>(
+  const result = await osmFetch<{ changeset: Changeset }>(
     `/0.6/changeset/${changesetId}/comment.json`,
     undefined,
     {
@@ -22,5 +20,5 @@ export async function createChangesetComment(
       },
     }
   );
-  return mapRawChangeset(result.changeset);
+  return result.changeset;
 }

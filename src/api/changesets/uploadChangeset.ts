@@ -33,7 +33,7 @@ export async function uploadChangeset(
      */
     onChunk?(info: UploadChunkInfo): Tags;
   }
-): Promise<number> {
+): Promise<number[]> {
   const chunks = chunkOsmChange(diff);
   const csIds: number[] = [];
 
@@ -91,5 +91,5 @@ export async function uploadChangeset(
     csIds.push(csId);
   }
 
-  return csIds[0]; // TODO:(semver breaking) return an array of IDs
+  return csIds;
 }
