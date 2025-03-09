@@ -1,24 +1,5 @@
 import type { FeatureCollection, Point } from "geojson";
-import type {
-  Changeset,
-  ChangesetComment,
-  OsmFeatureType,
-  OsmNote,
-} from "../types";
-
-/** @internal */
-export type RawChangeset = Omit<
-  Changeset,
-  "discussion" | "created_at" | "closed_at"
-> & {
-  created_at: string;
-  closed_at?: string;
-  comments?: (Omit<ChangesetComment, "date" | "uid"> & {
-    /** ISO Date */
-    date: string;
-    uid: number;
-  })[];
-};
+import type { OsmFeatureType, OsmNote } from "../types";
 
 /** @internal */
 export type RawNotesSearch = FeatureCollection<

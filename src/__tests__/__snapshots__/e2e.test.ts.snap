@@ -105,10 +105,9 @@ exports[`end to end tests > getCapabilities 1`] = `
 exports[`end to end tests > getChangeset (no discussion) 1`] = `
 {
   "changes_count": 10,
-  "closed_at": 2021-12-16T09:29:15.000Z,
+  "closed_at": "2021-12-16T09:29:15Z",
   "comments_count": 2,
-  "created_at": 2021-12-16T09:29:14.000Z,
-  "discussion": undefined,
+  "created_at": "2021-12-16T09:29:14Z",
   "id": 227200,
   "max_lat": -36.8801278,
   "max_lon": 174.7400986,
@@ -132,27 +131,27 @@ exports[`end to end tests > getChangeset (no discussion) 1`] = `
 exports[`end to end tests > getChangeset (with discussion) 1`] = `
 {
   "changes_count": 10,
-  "closed_at": 2021-12-16T09:29:15.000Z,
-  "comments_count": 2,
-  "created_at": 2021-12-16T09:29:14.000Z,
-  "discussion": [
+  "closed_at": "2021-12-16T09:29:15Z",
+  "comments": [
     {
-      "date": 2024-06-30T08:59:15.000Z,
+      "date": "2024-06-30T08:59:15Z",
       "id": 736,
       "text": "­",
-      "uid": "12248",
+      "uid": 12248,
       "user": "kylenz_testing",
       "visible": true,
     },
     {
-      "date": 2024-06-30T08:59:55.000Z,
+      "date": "2024-06-30T08:59:55Z",
       "id": 737,
       "text": "sup bro",
-      "uid": "12248",
+      "uid": 12248,
       "user": "kylenz_testing",
       "visible": true,
     },
   ],
+  "comments_count": 2,
+  "created_at": "2021-12-16T09:29:14Z",
   "id": 227200,
   "max_lat": -36.8801278,
   "max_lon": 174.7400986,
@@ -487,7 +486,7 @@ exports[`end to end tests > getUser 1`] = `
     },
   },
   "changesets": {
-    "count": 15,
+    "count": 27,
   },
   "contributor_terms": {
     "agreed": true,
@@ -506,10 +505,9 @@ exports[`end to end tests > listChangesets 1`] = `
 [
   {
     "changes_count": 2,
-    "closed_at": 2022-09-10T11:47:14.000Z,
+    "closed_at": "2022-09-10T11:47:14Z",
     "comments_count": 0,
-    "created_at": 2022-09-10T11:47:13.000Z,
-    "discussion": undefined,
+    "created_at": "2022-09-10T11:47:13Z",
     "id": 243638,
     "max_lat": -36.8804862,
     "max_lon": 174.739748,
@@ -526,10 +524,9 @@ exports[`end to end tests > listChangesets 1`] = `
   },
   {
     "changes_count": 10,
-    "closed_at": 2022-09-10T11:30:13.000Z,
+    "closed_at": "2022-09-10T11:30:13Z",
     "comments_count": 0,
-    "created_at": 2022-09-10T11:30:12.000Z,
-    "discussion": undefined,
+    "created_at": "2022-09-10T11:30:12Z",
     "id": 243637,
     "max_lat": -36.8804809,
     "max_lon": 174.7397571,
@@ -549,10 +546,9 @@ exports[`end to end tests > listChangesets 1`] = `
   },
   {
     "changes_count": 10,
-    "closed_at": 2021-12-16T09:29:15.000Z,
+    "closed_at": "2021-12-16T09:29:15Z",
     "comments_count": 2,
-    "created_at": 2021-12-16T09:29:14.000Z,
-    "discussion": undefined,
+    "created_at": "2021-12-16T09:29:14Z",
     "id": 227200,
     "max_lat": -36.8801278,
     "max_lon": 174.7400986,
@@ -573,10 +569,9 @@ exports[`end to end tests > listChangesets 1`] = `
   },
   {
     "changes_count": 5,
-    "closed_at": 2021-12-16T08:43:07.000Z,
+    "closed_at": "2021-12-16T08:43:07Z",
     "comments_count": 0,
-    "created_at": 2021-12-16T08:43:06.000Z,
-    "discussion": undefined,
+    "created_at": "2021-12-16T08:43:06Z",
     "id": 227184,
     "max_lat": -36.8804809,
     "max_lon": 174.7397571,

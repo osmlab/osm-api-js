@@ -1,18 +1,5 @@
 import type { BBox, Changeset } from "../../types";
 import { osmFetch } from "../_osmFetch";
-import type { RawChangeset } from "../_rawResponse";
-
-const mapRawChangeset = ({ comments, ...raw }: RawChangeset): Changeset => ({
-  ...raw,
-  created_at: new Date(raw.created_at),
-  closed_at: raw.closed_at ? new Date(raw.closed_at) : undefined!,
-
-  discussion: comments?.map((comment) => ({
-    ...comment,
-    date: new Date(comment.date),
-    uid: `${comment.uid}`,
-  })),
-});
 
 export type ListChangesetOptions = {
   /** Find changesets within the given bounding box */
@@ -51,7 +38,7 @@ export async function listChangesets(
 ): Promise<Changeset[]> {
   const { only, ...otherOptions } = options;
 
-  const raw = await osmFetch<{ changesets: RawChangeset[] }>(
+  const raw = await osmFetch<{ changesets: Changeset[] }>(
     "/0.6/changesets.json",
     {
       ...(only && { [only]: true }),
@@ -59,7 +46,7 @@ export async function listChangesets(
     }
   );
 
-  return raw.changesets.map(mapRawChangeset);
+  return raw.changesets;
 }
 
 /** get a single changeset */
@@ -67,10 +54,10 @@ export async function getChangeset(
   id: number,
   includeDiscussion = true
 ): Promise<Changeset> {
-  const raw = await osmFetch<{ changeset: RawChangeset }>(
+  const raw = await osmFetch<{ changeset: Changeset }>(
     `/0.6/changeset/${id}.json`,
     includeDiscussion ? { include_discussion: 1 } : {}
   );
 
-  return mapRawChangeset(raw.changeset);
+  return raw.changeset;
 }
