@@ -1,9 +1,11 @@
 import type { Tags } from "../../types";
-import { osmFetch } from "../_osmFetch";
+import { type FetchOptions, osmFetch } from "../_osmFetch";
 
-export async function getPreferences(): Promise<Tags> {
+export async function getPreferences(options?: FetchOptions): Promise<Tags> {
   const raw = await osmFetch<{ preferences: Tags }>(
-    "/0.6/user/preferences.json"
+    "/0.6/user/preferences.json",
+    undefined,
+    options
   );
 
   return raw.preferences;

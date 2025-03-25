@@ -1,4 +1,4 @@
-import { osmFetch } from "./_osmFetch";
+import { type FetchOptions, osmFetch } from "./_osmFetch";
 
 export type ApiStatus = "online" | "offline";
 
@@ -54,8 +54,10 @@ export type ApiCapabilities = {
 };
 
 /** This API provides information about the capabilities and limitations of the current API. */
-export async function getApiCapabilities(): Promise<ApiCapabilities> {
-  return osmFetch<ApiCapabilities>("/capabilities.json");
+export async function getApiCapabilities(
+  options?: FetchOptions
+): Promise<ApiCapabilities> {
+  return osmFetch<ApiCapabilities>("/capabilities.json", undefined, options);
 }
 
 // ---------------------------------------------------------------------- //

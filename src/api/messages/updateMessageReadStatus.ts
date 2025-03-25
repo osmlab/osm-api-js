@@ -1,14 +1,15 @@
 import type { OsmMessage } from "../../types";
-import { osmFetch } from "../_osmFetch";
+import { type FetchOptions, osmFetch } from "../_osmFetch";
 
 export async function updateMessageReadStatus(
   messageId: number,
-  isRead: boolean
+  isRead: boolean,
+  options?: FetchOptions
 ): Promise<OsmMessage> {
   const raw = await osmFetch<{ message: OsmMessage }>(
     `/0.6/user/messages/${messageId}.json`,
     { read_status: isRead },
-    { method: "POST" }
+    { ...options, method: "POST" }
   );
 
   return raw.message;

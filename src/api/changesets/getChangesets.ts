@@ -1,5 +1,5 @@
 import type { BBox, Changeset } from "../../types";
-import { osmFetch } from "../_osmFetch";
+import { type FetchOptions, osmFetch } from "../_osmFetch";
 import type { RawChangeset } from "../_rawResponse";
 
 const mapRawChangeset = ({ comments, ...raw }: RawChangeset): Changeset => ({
@@ -47,16 +47,18 @@ export type ListChangesetOptions = {
  * Returns at most 100 changesets.
  */
 export async function listChangesets(
-  options: ListChangesetOptions
+  query: ListChangesetOptions,
+  options?: FetchOptions
 ): Promise<Changeset[]> {
-  const { only, ...otherOptions } = options;
+  const { only, ...otherQueries } = query;
 
   const raw = await osmFetch<{ changesets: RawChangeset[] }>(
     "/0.6/changesets.json",
     {
       ...(only && { [only]: true }),
-      ...otherOptions,
-    }
+      ...otherQueries,
+    },
+    options
   );
 
   return raw.changesets.map(mapRawChangeset);
@@ -65,11 +67,14 @@ export async function listChangesets(
 /** get a single changeset */
 export async function getChangeset(
   id: number,
-  includeDiscussion = true
+  // eslint-disable-next-line default-param-last
+  includeDiscussion = true,
+  options?: FetchOptions
 ): Promise<Changeset> {
   const raw = await osmFetch<{ changeset: RawChangeset }>(
     `/0.6/changeset/${id}.json`,
-    includeDiscussion ? { include_discussion: 1 } : {}
+    includeDiscussion ? { include_discussion: 1 } : {},
+    options
   );
 
   return mapRawChangeset(raw.changeset);

@@ -1,5 +1,5 @@
 import type { OsmMessage } from "../../types";
-import { osmFetch } from "../_osmFetch";
+import { type FetchOptions, osmFetch } from "../_osmFetch";
 
 export interface SendMessageOptions {
   /** Recipient user ID. Specify either `recipient` or `recipient_id`. */
@@ -15,12 +15,13 @@ export interface SendMessageOptions {
 }
 
 export async function sendMessage(
-  options: SendMessageOptions
+  message: SendMessageOptions,
+  options?: FetchOptions
 ): Promise<OsmMessage> {
   const raw = await osmFetch<{ message: OsmMessage }>(
     "/0.6/user/messages.json",
-    options,
-    { method: "POST" }
+    message,
+    { ...options, method: "POST" }
   );
 
   return raw.message;

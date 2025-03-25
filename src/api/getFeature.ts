@@ -5,7 +5,7 @@ import type {
   OsmWay,
   UtilFeatureForType,
 } from "../types";
-import { osmFetch } from "./_osmFetch";
+import { type FetchOptions, osmFetch } from "./_osmFetch";
 
 /**
  * Gets infomation about a node, way, or relation.
@@ -18,7 +18,8 @@ import { osmFetch } from "./_osmFetch";
 export async function getFeature<T extends OsmFeatureType>(
   type: T,
   id: number,
-  full?: false
+  full?: false,
+  options?: FetchOptions
 ): Promise<[UtilFeatureForType<T>]>;
 
 /**
@@ -32,17 +33,21 @@ export async function getFeature<T extends OsmFeatureType>(
 export async function getFeature(
   type: OsmFeatureType,
   id: number,
-  full: true
+  full: true,
+  options?: FetchOptions
 ): Promise<OsmFeature[]>;
 
 export async function getFeature(
   type: OsmFeatureType,
   id: number,
-  full?: boolean
+  full?: boolean,
+  options?: FetchOptions
 ): Promise<OsmFeature[]> {
   const suffix = full && type !== "node" ? "/full" : "";
   const raw = await osmFetch<{ elements: OsmFeature[] }>(
-    `/0.6/${type}/${id}${suffix}.json`
+    `/0.6/${type}/${id}${suffix}.json`,
+    undefined,
+    options
   );
 
   return raw.elements;
@@ -54,10 +59,13 @@ export async function getFeature(
  */
 export async function getFeatures<T extends OsmFeatureType>(
   type: T,
-  ids: (number | string)[]
+  ids: (number | string)[],
+  options?: FetchOptions
 ): Promise<UtilFeatureForType<T>[]> {
   const raw = await osmFetch<{ elements: UtilFeatureForType<T>[] }>(
-    `/0.6/${type}s.json?${type}s=${ids.join(",")}`
+    `/0.6/${type}s.json?${type}s=${ids.join(",")}`,
+    undefined,
+    options
   );
   return raw.elements;
 }
@@ -71,10 +79,13 @@ export async function getFeatures<T extends OsmFeatureType>(
 export async function getFeatureAtVersion<T extends OsmFeatureType>(
   type: T,
   id: number,
-  version: number
+  version: number,
+  options?: FetchOptions
 ): Promise<UtilFeatureForType<T>> {
   const raw = await osmFetch<{ elements: [UtilFeatureForType<T>] }>(
-    `/0.6/${type}/${id}/${version}.json`
+    `/0.6/${type}/${id}/${version}.json`,
+    undefined,
+    options
   );
 
   return raw.elements[0];
@@ -87,19 +98,27 @@ export async function getFeatureAtVersion<T extends OsmFeatureType>(
  */
 export async function getFeatureHistory<T extends OsmFeatureType>(
   type: T,
-  id: number
+  id: number,
+  options?: FetchOptions
 ): Promise<UtilFeatureForType<T>[]> {
   const raw = await osmFetch<{ elements: UtilFeatureForType<T>[] }>(
-    `/0.6/${type}/${id}/history.json`
+    `/0.6/${type}/${id}/history.json`,
+    undefined,
+    options
   );
 
   return raw.elements;
 }
 
 /** gets a list of ways that a node belongs to */
-export async function getWaysForNode(nodeId: number): Promise<OsmWay[]> {
+export async function getWaysForNode(
+  nodeId: number,
+  options?: FetchOptions
+): Promise<OsmWay[]> {
   const raw = await osmFetch<{ elements: OsmWay[] }>(
-    `/0.6/node/${nodeId}/ways.json`
+    `/0.6/node/${nodeId}/ways.json`,
+    undefined,
+    options
   );
   return raw.elements;
 }
@@ -107,10 +126,13 @@ export async function getWaysForNode(nodeId: number): Promise<OsmWay[]> {
 /** gets a list of relations that a node, way, or relation belongs to */
 export async function getRelationsForElement(
   type: OsmFeatureType,
-  id: number
+  id: number,
+  options?: FetchOptions
 ): Promise<OsmRelation[]> {
   const raw = await osmFetch<{ elements: OsmRelation[] }>(
-    `/0.6/${type}/${id}/relations.json`
+    `/0.6/${type}/${id}/relations.json`,
+    undefined,
+    options
   );
   return raw.elements;
 }

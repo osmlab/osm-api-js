@@ -1,5 +1,5 @@
 import type { OsmChange, Tags } from "../../types";
-import { osmFetch } from "../_osmFetch";
+import { type FetchOptions, osmFetch } from "../_osmFetch";
 import {
   createChangesetMetaXml,
   createOsmChangeXml,
@@ -23,7 +23,7 @@ export interface UploadChunkInfo {
 export async function uploadChangeset(
   tags: { [key: string]: string },
   diff: OsmChange,
-  options?: {
+  options?: FetchOptions & {
     /**
      * Some changesets are too big to upload, so they have to be
      * split ("chunked") into multiple changesets.
@@ -59,9 +59,11 @@ export async function uploadChangeset(
     }
 
     const csId = +(await osmFetch<string>("/0.6/changeset/create", undefined, {
+      ...options,
       method: "PUT",
       body: createChangesetMetaXml(tagsForChunk),
       headers: {
+        ...options?.headers,
         "content-type": "application/xml; charset=utf-8",
       },
     }));
@@ -69,14 +71,17 @@ export async function uploadChangeset(
     const osmChangeXml = createOsmChangeXml(csId, chunk);
 
     await osmFetch(`/0.6/changeset/${csId}/upload`, undefined, {
+      ...options,
       method: "POST",
       body: osmChangeXml,
       headers: {
+        ...options?.headers,
         "content-type": "application/xml; charset=utf-8",
       },
     });
 
     await osmFetch(`/0.6/changeset/${csId}/close`, undefined, {
+      ...options,
       method: "PUT",
     });
     csIds.push(csId);

@@ -1,5 +1,5 @@
 import type { BBox, OsmNote } from "../../types";
-import { osmFetch } from "../_osmFetch";
+import { type FetchOptions, osmFetch } from "../_osmFetch";
 import type { RawNotesSearch } from "../_rawResponse";
 
 const featureToNote = (feature: RawNotesSearch["features"][0]): OsmNote => {
@@ -46,11 +46,13 @@ export type ListNotesOptions = {
 };
 
 async function $getNotes(
-  options: ListNotesOptions | { bbox: string | BBox },
-  suffix: boolean
+  query: ListNotesOptions | { bbox: string | BBox },
+  suffix: boolean,
+  options: FetchOptions | undefined
 ): Promise<OsmNote[]> {
   const raw = await osmFetch<RawNotesSearch>(
     `/0.6/notes${suffix ? "/search" : ""}.json`,
+    query,
     options
   );
 
@@ -65,9 +67,10 @@ async function $getNotes(
  * If no query is specified, the latest notes are returned.
  */
 export function getNotesForQuery(
-  options: ListNotesOptions
+  query: ListNotesOptions,
+  options?: FetchOptions
 ): Promise<OsmNote[]> {
-  return $getNotes(options, true);
+  return $getNotes(query, true, options);
 }
 
 /**
@@ -75,13 +78,21 @@ export function getNotesForQuery(
  * will be ordered by the date of their last change, with the most recent
  * one first.
  */
-export function getNotesForArea(bbox: BBox | string): Promise<OsmNote[]> {
-  return $getNotes({ bbox }, false);
+export function getNotesForArea(
+  bbox: BBox | string,
+  options?: FetchOptions
+): Promise<OsmNote[]> {
+  return $getNotes({ bbox }, false, options);
 }
 
-export async function getNote(noteId: number): Promise<OsmNote> {
+export async function getNote(
+  noteId: number,
+  options?: FetchOptions
+): Promise<OsmNote> {
   const raw = await osmFetch<RawNotesSearch["features"][0]>(
-    `/0.6/notes/${noteId}.json`
+    `/0.6/notes/${noteId}.json`,
+    undefined,
+    options
   );
   return featureToNote(raw);
 }

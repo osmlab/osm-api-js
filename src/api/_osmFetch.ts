@@ -2,6 +2,12 @@ import { getAuthToken } from "../auth";
 import { getConfig } from "../config";
 import { xmlParser } from "./_xml";
 
+/**
+ * extra options that are passed to {@link fetch}. Use this to
+ * customise HTTP headers or pass an {@link AbortSignal}.
+ */
+export type FetchOptions = Omit<RequestInit, "method" | "body">;
+
 const toBase64 = (text: string): string => {
   if (typeof btoa === "undefined") {
     return Buffer.from(text, "binary").toString("base64");
@@ -13,8 +19,8 @@ const toBase64 = (text: string): string => {
 export async function osmFetch<T>(
   path: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  qsObject?: Record<string, any>,
-  fetchOptions?: RequestInit
+  qsObject: Record<string, any> | undefined,
+  fetchOptions: RequestInit | undefined
 ): Promise<T> {
   const { apiUrl, authHeader, basicAuth, userAgent } = getConfig();
 
