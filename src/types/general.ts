@@ -48,3 +48,17 @@ export type BBox = readonly [
   maxLng: number,
   maxLat: number,
 ];
+
+/** shared by various APIs that support filtering */
+export interface BasicFilters {
+  /** Limits the number of items returned @default 100 */
+  limit?: number;
+  /** Find items by the user. You cannot supply both `user` and `display_name` */
+  user?: number;
+  /** Find items by the user. You cannot supply both `user` and `display_name` */
+  display_name?: string;
+  /** The beginning of a date range to search in for an item */
+  from?: string;
+  /** The end of a date range to search in for an item */
+  to?: string;
+}

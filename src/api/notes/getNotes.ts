@@ -1,4 +1,4 @@
-import type { BBox, OsmNote } from "../../types";
+import type { BBox, BasicFilters, OsmNote } from "../../types";
 import { type FetchOptions, osmFetch } from "../_osmFetch";
 import type { RawNote, RawNotesSearch } from "../_rawResponse";
 
@@ -11,40 +11,21 @@ export const featureToNote = (feature: RawNote): OsmNote => {
   };
 };
 
-export type ListNotesOptions = {
+export interface ListNotesOptions extends BasicFilters {
   /** The search query */
   q: string;
   /** Limits notes to the given bounding box */
   bbox?: BBox | string;
   /**
-   * The number of entries returned at max.
-   * @default 100
-   */
-  limit?: number;
-  /**
    * The number of days a note needs to be closed to no longer be returned.
    * @default 7
    */
   closed?: number;
-  /**
-   * The creator of the returned notes by the display name.
-   * Does not work together with the user parameter.
-   */
-  display_name?: string;
-  /**
-   * The creator of the returned notes by the id of the user.
-   * Does not work together with the display_name parameter.
-   */
-  user?: number;
-  /** The beginning of a date range to search in for a note */
-  from?: string;
-  /** The end of a date range to search in for a note */
-  to?: string;
   /** The value which should be used to sort the notes */
   sort?: "created_at" | "updated_at";
   /** The order of the returned notes */
   order?: "oldest" | "newest";
-};
+}
 
 async function $getNotes(
   query: ListNotesOptions | { bbox: string | BBox },

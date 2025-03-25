@@ -18,6 +18,7 @@ export const mapRawChangeset = ({
   })),
 });
 
+// does not extend BasicFilters for historical reasons
 export type ListChangesetOptions = {
   /** Find changesets within the given bounding box */
   bbox?: BBox | string;

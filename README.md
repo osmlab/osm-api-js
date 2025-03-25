@@ -70,6 +70,7 @@ All methods return promises. Examples requests and responses are available for a
   - [`listChangesets`](./examples/listChangesets.md)
   - [`getChangeset`](./examples/getChangeset.md)
   - [`getChangesetDiff`](./examples/getChangesetDiff.md)
+  - [`getChangesetComments`](./examples/getChangesetComments.md)
   - 🔑 [`uploadChangeset`](./examples/uploadChangeset.md)
   - 🔑 [`createChangesetComment`](./examples/createChangesetComment.md)
   - 🔑 [`subscribeToChangeset()`](./examples/subscribeToChangeset.md)
