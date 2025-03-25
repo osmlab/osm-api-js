@@ -1,14 +1,23 @@
 import type { OsmOwnUser, OsmUser, OsmUserBlock } from "../types";
-import { osmFetch } from "./_osmFetch";
-
-export async function getUser(user: number): Promise<OsmUser>;
-export async function getUser(user: "me"): Promise<OsmOwnUser>;
+import { type FetchOptions, osmFetch } from "./_osmFetch";
 
 export async function getUser(
-  user: number | "me"
+  user: number,
+  options?: FetchOptions
+): Promise<OsmUser>;
+export async function getUser(
+  user: "me",
+  options?: FetchOptions
+): Promise<OsmOwnUser>;
+
+export async function getUser(
+  user: number | "me",
+  options?: FetchOptions
 ): Promise<OsmUser | OsmOwnUser> {
   const raw = await osmFetch<{ user: OsmUser | OsmOwnUser }>(
-    `/0.6/user/${user === "me" ? "details" : user}.json`
+    `/0.6/user/${user === "me" ? "details" : user}.json`,
+    undefined,
+    options
   );
 
   return {
@@ -17,8 +26,15 @@ export async function getUser(
   };
 }
 
-export async function getUsers(users: number[]): Promise<OsmUser[]> {
-  const raw = await osmFetch<{ users: OsmUser[] }>("/0.6/users", { users });
+export async function getUsers(
+  users: number[],
+  options?: FetchOptions
+): Promise<OsmUser[]> {
+  const raw = await osmFetch<{ users: OsmUser[] }>(
+    "/0.6/users",
+    { users },
+    options
+  );
 
   return raw.users.map((u) => ({
     ...u,
@@ -27,18 +43,27 @@ export async function getUsers(users: number[]): Promise<OsmUser[]> {
 }
 
 /** gets details about a DWG block given the ID of the block */
-export async function getUserBlockById(blockId: number): Promise<OsmUserBlock> {
+export async function getUserBlockById(
+  blockId: number,
+  options?: FetchOptions
+): Promise<OsmUserBlock> {
   const raw = await osmFetch<{ user_block: OsmUserBlock }>(
-    `/0.6/user_blocks/${blockId}.json`
+    `/0.6/user_blocks/${blockId}.json`,
+    undefined,
+    options
   );
 
   return raw.user_block;
 }
 
 /** lists any blocks that are currently active for the authenticated user */
-export async function getOwnUserBlocks(): Promise<OsmUserBlock[]> {
+export async function getOwnUserBlocks(
+  options?: FetchOptions
+): Promise<OsmUserBlock[]> {
   const raw = await osmFetch<{ user_blocks: OsmUserBlock[] }>(
-    "/0.6/user/blocks/active"
+    "/0.6/user/blocks/active",
+    undefined,
+    options
   );
 
   return raw.user_blocks;
