@@ -11,6 +11,7 @@
     "stripInternal": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": false,
+    "noPropertyAccessFromIndexSignature": true,
     "outDir": "dist"
   },
   "include": ["src"]

@@ -28,7 +28,7 @@ const GribblehirstBbox = <const>[
   174.738948, -36.880984, 174.741083, -36.880065,
 ];
 
-const auth = process.env.OSM_AUTH || process.env.VITE_OSM_AUTH;
+const auth = process.env["OSM_AUTH"] || process.env["VITE_OSM_AUTH"];
 
 describe("end to end tests", () => {
   beforeAll(() => {

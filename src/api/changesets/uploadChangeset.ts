@@ -54,7 +54,7 @@ export async function uploadChangeset(
       } else {
         // there is no custom implementation,
         // so add some default tags to the changeset.
-        tagsForChunk.chunk = `${index + 1}/${chunks.length}`;
+        tagsForChunk["chunk"] = `${index + 1}/${chunks.length}`;
       }
     }
 
