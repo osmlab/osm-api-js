@@ -55,7 +55,7 @@ export async function login(options: LoginOptions): Promise<LoginData> {
   }
 
   if (options.mode === "redirect") {
-    localStorage.set("__osmAuthTemp", JSON.stringify(transaction));
+    localStorage.setItem("__osmAuthTemp", JSON.stringify(transaction));
     window.location.replace(loginUrl);
     return undefined as never;
   }
