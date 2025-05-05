@@ -3,6 +3,7 @@ import type { OsmChange, OsmFeature, OsmFeatureType } from "../../../types";
 import { uploadChangeset } from "../uploadChangeset";
 import { chunkOsmChange } from "../chunkOsmChange";
 import { osmFetch } from "../../_osmFetch";
+import { version } from "../../../../package.json";
 
 let nextId = 0;
 vi.mock("../../_osmFetch", () => ({ osmFetch: vi.fn(() => ++nextId) }));
@@ -47,6 +48,30 @@ describe("uploadChangeset", () => {
     ].sort(shuffle),
   };
 
+  it("adds a fallback created_by tag", async () => {
+    const output = await uploadChangeset(
+      { comment: "added a building" },
+      { create: [], modify: [], delete: [] }
+    );
+    expect(output).toBe(1);
+
+    expect(osmFetch).toHaveBeenCalledTimes(3);
+    expect(osmFetch).toHaveBeenNthCalledWith(
+      1,
+      "/0.6/changeset/create",
+      undefined,
+      expect.objectContaining({
+        body: `<osm>
+  <changeset>
+    <tag k="comment" v="added a building"/>
+    <tag k="created_by" v="osm-api-js ${version}"/>
+  </changeset>
+</osm>
+`,
+      })
+    );
+  });
+
   it("splits changesets into chunks and uploads them in a schematically valid order", async () => {
     const output = await uploadChangeset({ created_by: "me" }, huge);
 
@@ -76,6 +101,7 @@ describe("uploadChangeset", () => {
     const output = await uploadChangeset({ created_by: "me" }, huge, {
       onChunk: ({ changesetIndex, changesetTotal, featureCount }) => ({
         comment: "hiiii",
+        created_by: "MyCoolApp",
         part: `${changesetIndex + 1} out of ${changesetTotal}`,
         totalSize: featureCount.toLocaleString("en"),
       }),
@@ -92,6 +118,7 @@ describe("uploadChangeset", () => {
           body: `<osm>
   <changeset>
     <tag k="comment" v="hiiii"/>
+    <tag k="created_by" v="MyCoolApp"/>
     <tag k="part" v="${index + 1} out of 4"/>
     <tag k="totalSize" v="20"/>
   </changeset>

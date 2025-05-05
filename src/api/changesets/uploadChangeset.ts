@@ -1,5 +1,6 @@
 import type { OsmChange, Tags } from "../../types";
 import { type FetchOptions, osmFetch } from "../_osmFetch";
+import { version } from "../../../package.json";
 import {
   createChangesetMetaXml,
   createOsmChangeXml,
@@ -57,6 +58,9 @@ export async function uploadChangeset(
         tagsForChunk["chunk"] = `${index + 1}/${chunks.length}`;
       }
     }
+
+    // if the user didn't include a `created_by` tag, we'll add one.
+    tagsForChunk["created_by"] ||= `osm-api-js ${version}`;
 
     const csId = +(await osmFetch<string>("/0.6/changeset/create", undefined, {
       ...options,

@@ -10,6 +10,7 @@
     "declaration": true,
     "stripInternal": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": false,
     "noPropertyAccessFromIndexSignature": true,
     "outDir": "dist"
