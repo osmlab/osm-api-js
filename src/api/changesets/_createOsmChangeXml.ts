@@ -20,12 +20,20 @@ export function createChangesetMetaXml(tags: Tags) {
   });
 }
 
-const createGroup = (csId: number, features: OsmFeature[], isCreate?: true) =>
-  features.reduce(
+const createGroup = (
+  csId: number,
+  features: OsmFeature[],
+  type?: keyof OsmChange
+) => {
+  const order = ["node", "way", "relation"];
+  // delete children before the features that reference them
+  if (type === "delete") order.reverse();
+
+  return features.reduce(
     (ac, f) => {
       const base = {
         $id: f.id,
-        $version: isCreate ? 0 : f.version,
+        $version: type === "create" ? 0 : f.version,
         $changeset: csId,
         tag: Object.entries(f.tags || {}).map(([$k, $v]) => ({
           $k,
@@ -59,9 +67,23 @@ const createGroup = (csId: number, features: OsmFeature[], isCreate?: true) =>
         }
       }
     },
-    { node: [] as unknown[], way: [] as unknown[], relation: [] as unknown[] }
+    // construct the object with the keys in the correct order
+    Object.fromEntries<unknown[]>(order.map((key) => [key, []])) as {
+      node: unknown[];
+      way: unknown[];
+      relation: unknown[];
+    }
   );
+};
 
+/**
+ * this function also sorts the elements to ensure that deletion
+ * works. This means you don't need to worry about the array order
+ * yourself.
+ * For example, deleting a square building involves deleting 4 nodes
+ * and 1 way. The 4 nodes need to be included in the deletions array
+ * before the way.
+ */
 // not marked as internal - this one can be used by consumers
 export function createOsmChangeXml(
   csId: number,
@@ -75,9 +97,11 @@ export function createOsmChangeXml(
       changeset: metadata
         ? { tag: Object.entries(metadata).map(([$k, $v]) => ({ $k, $v })) }
         : undefined,
-      create: [createGroup(csId, diff.create, true)],
-      modify: [createGroup(csId, diff.modify)],
-      delete: [{ "$if-unused": true, ...createGroup(csId, diff.delete) }],
+      create: [createGroup(csId, diff.create, "create")],
+      modify: [createGroup(csId, diff.modify, "modify")],
+      delete: [
+        { "$if-unused": true, ...createGroup(csId, diff.delete, "delete") },
+      ],
     },
   });
 }

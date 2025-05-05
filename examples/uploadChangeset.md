@@ -70,7 +70,13 @@ const newNode: OsmNode = {
 };
 
 await uploadChangeset(
-  { created_by: "MyApp 1.0", comment: "tagging as resturant" },
+  { created_by: "MyApp 1.0", comment: "created a restaurant" },
   { create: [newNode], modify: [], delete: [] }
 );
 ```
+
+## Note about ordering
+
+When accessing the API directly, the order of items in `create`/`modify`/`delete` array matters.
+However, if you use this library, you don't need to worry about the order.
+This library will sort your changeset items before uploading it, so you send your data to this library in any order.

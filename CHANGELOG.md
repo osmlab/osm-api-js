@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- When uploading a changeset, the osmChange array is now automatically sorted, so that you don't have to worry about sorting in your own application.
+
 ## 2.5.1 (2025-05-05)
 
 - Fix bug causing OAuth not to work when using redirect-mode
