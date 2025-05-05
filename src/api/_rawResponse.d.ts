@@ -4,6 +4,7 @@ import type {
   ChangesetComment,
   OsmFeatureType,
   OsmNote,
+  Tags,
 } from "../types";
 
 /** @internal */
@@ -66,3 +67,19 @@ export type RawOsmChange = {
     },
   ];
 };
+
+/** @internal */
+export interface RawGpxTrackPoints {
+  "?xml": [{ $: Tags }];
+  gpx: {
+    $: Tags;
+    trk: {
+      name: [string];
+      desc: [string];
+      url: [string];
+      trkseg: {
+        trkpt: { time: [string]; $: { lat: `${number}`; lon: `${number}` } }[];
+      }[];
+    }[];
+  }[];
+}

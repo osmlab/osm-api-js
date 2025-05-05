@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add 7 new functions for the GPX Trace APIs
 - When uploading a changeset, if you don't specify a `created_by` tag, this library will add one itself, so that changesets always have a `created_by` tag.
 - When uploading a changeset, the osmChange array is now automatically sorted, so that you don't have to worry about sorting in your own application.
 

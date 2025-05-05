@@ -45,6 +45,12 @@ export async function osmFetch<T>(
 
   const contentType = response.headers.get("Content-Type");
 
+  if (contentType?.startsWith("application/gpx+xml")) {
+    const xml = await response.text();
+    const json = await xmlParser.parse(xml);
+    return { json, xml } as T;
+  }
+
   if (contentType?.startsWith("application/xml")) {
     const xml = await response.text();
     const json = await xmlParser.parse(xml);

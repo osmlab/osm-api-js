@@ -1,4 +1,5 @@
 export * from "./changesets";
+export * from "./gpx";
 export * from "./messages";
 export * from "./notes";
 export * from "./preferences";

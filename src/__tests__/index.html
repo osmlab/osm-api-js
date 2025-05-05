@@ -13,7 +13,7 @@
 <div></div>
 <main hidden>
   You are logged in!
-  <button onclick="getUser()">Call the OSM User API</button>
+  <button onclick="getUser()">Call the API</button>
   <button onclick="logout()">Logout</button>
   <pre></pre>
 </main>
@@ -50,7 +50,7 @@
   }
   function getUser() {
     const pre = document.querySelector("pre");
-    OSM.getUser("me")
+    OSM.getGpxTrace(3717275)
       .then((result) => {
         pre.innerText = JSON.stringify(result, null, 2);
       })

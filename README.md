@@ -74,6 +74,14 @@ All methods return promises. Examples requests and responses are available for a
   - [`getUIdFromDisplayName`](./examples/getUIdFromDisplayName.md)
   - [`getUserBlockById`](./examples/getUserBlockById.md)
   - 🔑 [`getOwnUserBlocks`](./examples/getOwnUserBlocks.md)
+- GPX
+  - [`getGpxTrace`](./examples/getGpxTrace.md)
+  - [`getGpxTraceMetadata`](./examples/getGpxTraceMetadata.md)
+  - [`getTrackPoints`](./examples/getTrackPoints.md)
+  - 🔑 [`getOwnGpxTraces`](./examples/getOwnGpxTraces.md)
+  - 🔑 [`uploadGpxTrace`](./examples/uploadGpxTrace.md)
+  - 🔑 [`deleteGpxTrace`](./examples/deleteGpxTrace.md)
+  - 🔑 [`updateGpxTraceMetadata`](./examples/updateGpxTraceMetadata.md)
 - Messaging
   - 🔑 [`deleteMessage()`](./examples/deleteMessage.md)
   - 🔑 [`getMessage()`](./examples/getMessage.md)
