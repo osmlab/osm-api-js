@@ -501,7 +501,7 @@ exports[`end to end tests > getUser 1`] = `
   "id": 12248,
   "roles": [],
   "traces": {
-    "count": 0,
+    "count": 1,
   },
 }
 `;
