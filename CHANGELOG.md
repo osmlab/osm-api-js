@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 2.6.1 (2025-05-19)
+
+- Fix configuration issue which broke the type-definitions in the previous release
+
 ## 2.6.0 (2025-05-12)
 
 - When uploading a changeset, if you don't specify a `created_by` tag, this library will add one itself, so that changesets always have a `created_by` tag.
