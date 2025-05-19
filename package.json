@@ -7,7 +7,7 @@
   "description": "🗺️🌏 Javascript/Typescript wrapper around the OpenStreetMap API",
   "main": "dist",
   "unpkg": "dist/index.min.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "license": "MIT",
   "files": [
     "dist"
