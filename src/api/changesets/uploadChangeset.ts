@@ -22,7 +22,7 @@ export interface UploadChunkInfo {
  * @returns the changeset number
  */
 export async function uploadChangeset(
-  tags: { [key: string]: string },
+  tags: Tags,
   diff: OsmChange,
   options?: FetchOptions & {
     /**

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Optionally support type-safe `Tags`. `Tags` is currently defined as `Record<string, string>`. If you want additional type-safety, you can specify the keys are the allowed. See the docs for more info.
+
 ## 2.6.1 (2025-05-19)
 
 - Fix configuration issue which broke the type-definitions in the previous release

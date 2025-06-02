@@ -96,6 +96,7 @@ All methods return promises. Examples requests and responses are available for a
   - [`getApiCapabilities()`](./examples/getApiCapabilities.md)
   - [`getMapData`](./examples/getMapData.md)
   - [Using the Development Server](./examples/dev-server.md)
+  - [Additional type-safety for Keys/Tags](./examples/type-safe-tags.md)
 - Authentication (browser only, not available in NodeJS)
   - `login`
   - `logout`

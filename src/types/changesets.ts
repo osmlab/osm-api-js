@@ -1,4 +1,5 @@
 import type { OsmFeature } from "./features";
+import type { Tags } from "./general";
 
 export type ChangesetComment = {
   id: number;
@@ -35,9 +36,7 @@ export type Changeset = {
   max_lon: number;
   uid: number;
   user: string;
-  tags: {
-    [key: string]: string;
-  };
+  tags: Tags;
   /** the `discussion` attribute is only included in the `getChangeset` API */
   discussion?: ChangesetComment[];
 };
