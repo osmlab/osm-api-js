@@ -1,3 +1,5 @@
+import type { Tags } from "./general";
+
 export type OsmFeatureType = "node" | "way" | "relation";
 
 /** these attributes exist on nodes, ways, and relations */
@@ -11,9 +13,7 @@ export type OsmBaseFeature = {
   version: number;
   uid: number;
 
-  tags?: {
-    [key: string]: string;
-  };
+  tags?: Tags;
 
   /** if false, it means the feature has been deleted */
   visible?: false;
