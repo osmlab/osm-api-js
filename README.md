@@ -190,7 +190,7 @@ In NodeJS, if you want to use a method that requires authentication, call the `c
 ```js
 const OSM = require("osm-api");
 
-OSM.configure({ bearerToken: "..." });
+OSM.configure({ authHeader: `Bearer ${authToken}` });
 // or
 OSM.configure({ basicAuth: { username: "...", password: "..." } });
 
