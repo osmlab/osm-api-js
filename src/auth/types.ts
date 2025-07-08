@@ -40,10 +40,3 @@ export type Transaction = {
   pkceVerifier: string;
   options: LoginOptions;
 };
-
-/** @internal */
-declare global {
-  interface Window {
-    authComplete?(fullUrl: string): void;
-  }
-}

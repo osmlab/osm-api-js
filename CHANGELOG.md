@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 3.0.0 (2025-07-08)
+
+- 💥 BREAKING CHANGE: Fix authentication broken when using the `popup` mode due to [recent security changes](https://github.com/openstreetmap/openstreetmap-website/commit/2ff4d6)
+
 ## 2.7.0 (2025-06-02)
 
 - Optionally support type-safe `Tags`. `Tags` is currently defined as `Record<string, string>`. If you want additional type-safety, you can specify the keys are the allowed. See the docs for more info.
