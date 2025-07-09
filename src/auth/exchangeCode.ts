@@ -56,7 +56,6 @@ export async function exchangeCode(
   localStorage.setItem("__osmAuth", JSON.stringify(loginData));
 
   // At this point, we can consider the login sucessfull
-  delete window.authComplete;
 
   return loginData;
 }

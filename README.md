@@ -8,6 +8,12 @@
 
 🗺️🌏 Javascript/Typescript wrapper around the OpenStreetMap API.
 
+> [!IMPORTANT]
+> Due to [security changes on 8 July 2025](https://github.com/openstreetmap/openstreetmap-website/commit/2ff4d6), authentication using the `popup` mode will not work until you:
+>
+> 1. update this library to v3.0.0
+> 2. AND update the code snippet in your `land.html` file to the latest version (see [the popup documentation below](#1-popup))
+
 Benefits:
 
 - Lightweight (24 kB gzipped)
@@ -121,8 +127,8 @@ If using a popup, you should create a separate landing page, such as `land.html`
 
 ```html
 <script>
-  if (window.opener) {
-    window.opener.authComplete(location.href);
+  if (new URLSearchParams(location.search).has("code")) {
+    new BroadcastChannel("osm-api-auth-complete").postMessage(location.href);
     window.close();
   }
 </script>

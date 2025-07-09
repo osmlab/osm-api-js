@@ -1,3 +1,5 @@
+const CHANNEL_ID = "osm-api-auth-complete";
+
 /**
  * resolves once the login flow in the popup is sucessful.
  * rejects if the popup is closed by the user or if there's an error.
@@ -5,7 +7,7 @@
  */
 export function createPopup(loginUrl: string): Promise<string> {
   let resolved = false;
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     const [width, height] = [600, 550];
     const settings = Object.entries({
       width,
@@ -20,17 +22,14 @@ export function createPopup(loginUrl: string): Promise<string> {
     if (!popup) throw new Error("Popup was blocked");
     popup.location = loginUrl;
 
-    window.authComplete = (fullUrl: string) => {
-      resolve(fullUrl);
+    const bc = new BroadcastChannel(CHANNEL_ID);
+    const onMessage = (event: MessageEvent) => {
+      if (resolved) return; // already got a response
+      resolve(event.data);
       resolved = true;
+      bc.removeEventListener("message", onMessage);
+      bc.close();
     };
-
-    // check every 0.5seconds if the popup has been closed by the user.
-    const intervalId = setInterval(() => {
-      if (popup.closed) {
-        if (!resolved) reject(new Error("Cancelled"));
-        clearInterval(intervalId);
-      }
-    }, 500);
+    bc.addEventListener("message", onMessage);
   });
 }

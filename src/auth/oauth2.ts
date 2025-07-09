@@ -73,10 +73,7 @@ export const authReady: Promise<void> = (async () => {
   const loginState = localStorage.getItem("__osmAuthTemp");
 
   if (new URL(fullUrl).searchParams.get("code")) {
-    if (window.opener?.authComplete) {
-      window.opener.authComplete(fullUrl);
-      window.close();
-    } else if (loginState) {
+    if (loginState) {
       try {
         const transaction: Transaction = JSON.parse(loginState);
         await exchangeCode(fullUrl, transaction);
