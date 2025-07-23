@@ -8,4 +8,4 @@ await reopenNote(123456, "reopening because blah blah");
 
 Response:
 
-_void_
+_same as [`createNote`](./createNote.md)_

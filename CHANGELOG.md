@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Added a new function `closeNote`
+- Fixed some note methods not working
+
 ## 3.0.0 (2025-07-08)
 
 - 💥 BREAKING CHANGE: Fix authentication broken when using the `popup` mode due to [recent security changes](https://github.com/openstreetmap/openstreetmap-website/commit/2ff4d6)
