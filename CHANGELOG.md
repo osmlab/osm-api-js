@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add new options to the `OsmUserRole` string union.
 - Change `createChangesetComment` to return the changeset object instead of returning `undefined`.
+- Add 5 new functions that only administrators/moderators can use.
 
 ## 3.1.0 (2025-07-23)
 
