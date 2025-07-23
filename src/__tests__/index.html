@@ -22,11 +22,18 @@
 </aside>
 
 <script>
+  const USE_DEV_SERVER = false;
   const redirectUrl = "http://127.0.0.1:4167/src/__tests__";
 
   // must use 127.0.0.1, not localhost
   if (location.hostname === "localhost") {
     window.location.replace(redirectUrl);
+  }
+
+  if (USE_DEV_SERVER) {
+    OSM.configure({
+      apiUrl: "https://master.apis.dev.openstreetmap.org",
+    });
   }
 
   function login() {
@@ -35,7 +42,9 @@
 
     OSM.login({
       mode: "popup",
-      clientId: "ytK3ZAZCFb8z2MjIzo0MMpXE8qiseOUGnGR_5jIIr5M",
+      clientId: USE_DEV_SERVER
+        ? "JOJQE0g3lnqRuY2fnkuIFr4o7Y49Eq2wem1AaPqUbD4"
+        : "ytK3ZAZCFb8z2MjIzo0MMpXE8qiseOUGnGR_5jIIr5M",
       redirectUrl: redirectUrl,
       scopes: ["write_api", "read_prefs"],
     })

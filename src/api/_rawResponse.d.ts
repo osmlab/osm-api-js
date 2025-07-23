@@ -1,4 +1,4 @@
-import type { FeatureCollection, Point } from "geojson";
+import type { Feature, FeatureCollection, Point } from "geojson";
 import type {
   Changeset,
   ChangesetComment,
@@ -25,6 +25,9 @@ export type RawNotesSearch = FeatureCollection<
   Point,
   Omit<OsmNote, "location">
 >;
+
+/** @internal */
+export type RawNote = Feature<Point, Omit<OsmNote, "location">>;
 
 /** @internal */
 type RawFeature = {

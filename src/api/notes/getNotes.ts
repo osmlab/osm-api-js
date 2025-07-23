@@ -1,8 +1,9 @@
 import type { BBox, OsmNote } from "../../types";
 import { type FetchOptions, osmFetch } from "../_osmFetch";
-import type { RawNotesSearch } from "../_rawResponse";
+import type { RawNote, RawNotesSearch } from "../_rawResponse";
 
-const featureToNote = (feature: RawNotesSearch["features"][0]): OsmNote => {
+/** @internal */
+export const featureToNote = (feature: RawNote): OsmNote => {
   const [lng, lat] = feature.geometry.coordinates;
   return {
     ...feature.properties,
@@ -89,7 +90,7 @@ export async function getNote(
   noteId: number,
   options?: FetchOptions
 ): Promise<OsmNote> {
-  const raw = await osmFetch<RawNotesSearch["features"][0]>(
+  const raw = await osmFetch<RawNote>(
     `/0.6/notes/${noteId}.json`,
     undefined,
     options

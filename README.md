@@ -90,6 +90,7 @@ All methods return promises. Examples requests and responses are available for a
   - [`getNotesForQuery()`](./examples/getNotesForQuery.md)
   - [`getNotesForArea()`](./examples/getNotesForArea.md)
   - [`createNote()`](./examples/createNote.md)
+  - 🔑 [`closeNote()`](./examples/closeNote.md)
   - 🔑 [`commentOnNote()`](./examples/commentOnNote.md)
   - 🔑 [`reopenNote()`](./examples/reopenNote.md)
   - 🔑 [`subscribeToNote()`](./examples/subscribeToNote.md)

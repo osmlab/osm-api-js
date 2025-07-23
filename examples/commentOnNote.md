@@ -8,4 +8,4 @@ await commentOnNote(123456, "i also visited this café");
 
 Response:
 
-_void_
+_same as [`createNote`](./createNote.md)_
