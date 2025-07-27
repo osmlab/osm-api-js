@@ -1,4 +1,4 @@
-export type OsmUserRole = "moderator";
+export type OsmUserRole = "administrator" | "moderator" | "importer";
 
 export type OsmUser = {
   id: number;
