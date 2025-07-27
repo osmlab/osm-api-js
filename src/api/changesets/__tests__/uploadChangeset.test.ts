@@ -53,7 +53,7 @@ describe("uploadChangeset", () => {
       { comment: "added a building" },
       { create: [], modify: [], delete: [] }
     );
-    expect(output).toBe(1);
+    expect(output).toStrictEqual([1]);
 
     expect(osmFetch).toHaveBeenCalledTimes(3);
     expect(osmFetch).toHaveBeenNthCalledWith(
@@ -94,7 +94,7 @@ describe("uploadChangeset", () => {
       );
     }
 
-    expect(output).toBe(1);
+    expect(output).toStrictEqual([1, 4, 7, 10]);
   });
 
   it("splits changesets into chunks and suports a custom tag function", async () => {
@@ -128,6 +128,6 @@ describe("uploadChangeset", () => {
       );
     }
 
-    expect(output).toBe(1);
+    expect(output).toStrictEqual([1, 4, 7, 10]);
   });
 });

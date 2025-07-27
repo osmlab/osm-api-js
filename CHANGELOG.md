@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 4.0.0 (----------)
+
+- 💥 BREAKING CHANGE: `uploadChangeset` now returns an array of changeset IDs. This is because the function supports chunking uploads into multiple changesets if it exceeds the limit of 10,000 features per changeset.
+- 💥 BREAKING CHANGE: The type defintions for `Changeset` have been changed to mark several properties as optional. (see #14)
+- 💥 BREAKING CHANGE: `Changeset.created_at`, `Changeset.closed_at`, and `ChangesetComment.date` are now a `string`, not a `Date`. This makes it more consistent with the XML format, and easier to serialise to JSON.
+- 💥 BREAKING CHANGE: `ChangesetComment.uid` is now a `number`, not a `string`. This matches the behaviour of OSM's new json API.
+- 💥 BREAKING CHANGE: `Changeset.discussion` has been renamed to `Changeset.comments`. This matches the behaviour of OSM's new json API.
+
 - Add new options to the `OsmUserRole` string union.
 - Change `createChangesetComment` to return the changeset object instead of returning `undefined`.
 - Add 5 new functions that only administrators/moderators can use.
