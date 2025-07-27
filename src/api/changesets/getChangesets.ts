@@ -2,7 +2,11 @@ import type { BBox, Changeset } from "../../types";
 import { type FetchOptions, osmFetch } from "../_osmFetch";
 import type { RawChangeset } from "../_rawResponse";
 
-const mapRawChangeset = ({ comments, ...raw }: RawChangeset): Changeset => ({
+/** @internal */
+export const mapRawChangeset = ({
+  comments,
+  ...raw
+}: RawChangeset): Changeset => ({
   ...raw,
   created_at: new Date(raw.created_at),
   closed_at: raw.closed_at ? new Date(raw.closed_at) : undefined!,
