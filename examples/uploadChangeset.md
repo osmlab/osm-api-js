@@ -16,6 +16,10 @@ await uploadChangeset(
     ],
     modify: [],
     delete: [],
+  },
+  {
+    // optional callbacks and options, see below for details
+    onChunk: () => {},
   }
 );
 ```
@@ -80,3 +84,28 @@ await uploadChangeset(
 When accessing the API directly, the order of items in `create`/`modify`/`delete` array matters.
 However, if you use this library, you don't need to worry about the order.
 This library will sort your changeset items before uploading it, so you send your data to this library in any order.
+
+## Advanced Options
+
+You typically won't need to configure these options, but they exist for advanced users:
+
+### onChunk
+
+Some changesets are too big to upload, since the API has a restriction of 10,000
+features per changeset (_at the time of writing. This limit could change_).
+Therefore, these changesets are intelligently split ("chunked") into multiple changesets by this library.
+
+When this happens, you can customize the changeset tags for each chunk by specifying the `onChunk` callback.
+This callback is invoked once, if your upload must be chunked.
+The callback should return an object of `Tags`.
+
+Example:
+
+```js
+await uploadChangeset(changesetTags, diff, {
+  onChunk: () => {
+    // this is called when the upload was chunked
+    return { review_requested: "yes" }; // you can add any tags to the changeset here
+  },
+});
+```
