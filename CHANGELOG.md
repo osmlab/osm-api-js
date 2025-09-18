@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 3.3.0 (2025-09-18)
+
 - [uploadChangeset] add an `onProgress` callback, so that apps can show a progress bar while uploading
 - [uploadChangeset] compress changesets with gzip before uploading (if JS's [`CompressionStream`](https://developer.mozilla.org/en-US/docs/Web/API/CompressionStream) is available natively)
 
