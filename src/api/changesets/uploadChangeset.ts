@@ -17,6 +17,17 @@ export interface UploadChunkInfo {
   changesetTotal: number;
 }
 
+/** @internal */
+export function compress(input: string) {
+  // check if it's supported
+  if (!globalThis.CompressionStream) return undefined;
+
+  const stream = new Response(input).body!.pipeThrough(
+    new CompressionStream("gzip")
+  );
+  return new Response(stream).blob();
+}
+
 export interface UploadOptions {
   /**
    * Some changesets are too big to upload, so they have to be
@@ -41,6 +52,7 @@ export async function uploadChangeset(
 ): Promise<number> {
   const {
     onChunk,
+    disableCompression,
     //
     ...fetchOptions
   } = options || {};
@@ -85,12 +97,15 @@ export async function uploadChangeset(
 
     const osmChangeXml = createOsmChangeXml(csId, chunk);
 
+    const compressed = !disableCompression && (await compress(osmChangeXml));
+
     await osmFetch(`/0.6/changeset/${csId}/upload`, undefined, {
       ...fetchOptions,
       method: "POST",
-      body: osmChangeXml,
+      body: compressed || osmChangeXml,
       headers: {
         ...fetchOptions.headers,
+        ...(compressed && { "Content-Encoding": "gzip" }),
         "content-type": "application/xml; charset=utf-8",
       },
     });

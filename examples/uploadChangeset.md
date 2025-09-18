@@ -89,6 +89,12 @@ This library will sort your changeset items before uploading it, so you send you
 
 You typically won't need to configure these options, but they exist for advanced users:
 
+## disableCompression
+
+By default, uploads are compressed with [gzip](https://en.wikipedia.org/wiki/Gzip) using JavaScript's native [`CompressionStream` API](https://developer.mozilla.org/en-US/docs/Web/API/CompressionStream), if it's available.
+This will marginally reduce the bandwidth used for uploads, see [openstreetmap/operations#193](https://github.com/openstreetmap/operations/issues/193) for context.
+If you don't want to use gzip compression for uploads, you can set this `disableCompression` option to `false`.
+
 ### onChunk
 
 Some changesets are too big to upload, since the API has a restriction of 10,000
