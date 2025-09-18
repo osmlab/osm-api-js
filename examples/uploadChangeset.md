@@ -115,3 +115,18 @@ await uploadChangeset(changesetTags, diff, {
   },
 });
 ```
+
+### onProgress
+
+`onProgress` is a callback function which is called whenever the upload progress changes.
+It is called with an object parameter:
+
+```js
+{
+    phase: "upload",
+    step: 20,
+    total: 35,
+}
+```
+
+`step` is a number from `0` to `total` which could be used to render a progress bar.

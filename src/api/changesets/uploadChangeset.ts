@@ -17,6 +17,8 @@ export interface UploadChunkInfo {
   changesetTotal: number;
 }
 
+export type UploadPhase = "upload" | "merge_conflicts";
+
 /** @internal */
 export function compress(input: string) {
   // check if it's supported
@@ -37,6 +39,16 @@ export interface UploadOptions {
    */
   onChunk?(info: UploadChunkInfo): Tags;
 
+  /**
+   * Optional, if you want status updates during the upload process,
+   * this callback is invoked whenever the progress updates.
+   */
+  onProgress?(progress: {
+    phase: UploadPhase;
+    step: number;
+    total: number;
+  }): void;
+
   /** by default, uploads are compressed with gzip. set to `false` to disable */
   disableCompression?: boolean;
 }
@@ -52,6 +64,7 @@ export async function uploadChangeset(
 ): Promise<number> {
   const {
     onChunk,
+    onProgress,
     disableCompression,
     //
     ...fetchOptions
@@ -84,6 +97,8 @@ export async function uploadChangeset(
 
     // if the user didn't include a `created_by` tag, we'll add one.
     tagsForChunk["created_by"] ||= `osm-api-js ${version}`;
+
+    onProgress?.({ phase: "upload", step: index + 1, total: chunks.length });
 
     const csId = +(await osmFetch<string>("/0.6/changeset/create", undefined, {
       ...fetchOptions,
