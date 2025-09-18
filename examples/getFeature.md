@@ -12,8 +12,9 @@ await getFeature("relation", 1234, true);
 
 Response:
 
+_the response is an array, which will only have 1 item unless you set `full` to `true`_
+
 ```json
-// the response is an array, which will only have 1 item unless you set `full` to `true`
 [
   {
     "changeset": 243638,
