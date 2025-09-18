@@ -17,6 +17,19 @@ export interface UploadChunkInfo {
   changesetTotal: number;
 }
 
+export interface UploadOptions {
+  /**
+   * Some changesets are too big to upload, so they have to be
+   * split ("chunked") into multiple changesets.
+   * When this happens, you can customize the changeset tags for
+   * each chunk by returning {@link Tags}.
+   */
+  onChunk?(info: UploadChunkInfo): Tags;
+
+  /** by default, uploads are compressed with gzip. set to `false` to disable */
+  disableCompression?: boolean;
+}
+
 /**
  * uploads a changeset to the OSM API.
  * @returns the changeset number
@@ -24,16 +37,14 @@ export interface UploadChunkInfo {
 export async function uploadChangeset(
   tags: Tags,
   diff: OsmChange,
-  options?: FetchOptions & {
-    /**
-     * Some changesets are too big to upload, so they have to be
-     * split ("chunked") into multiple changesets.
-     * When this happens, you can customize the changeset tags for
-     * each chunk by returning {@link Tags}.
-     */
-    onChunk?(info: UploadChunkInfo): Tags;
-  }
+  options?: FetchOptions & UploadOptions
 ): Promise<number> {
+  const {
+    onChunk,
+    //
+    ...fetchOptions
+  } = options || {};
+
   const chunks = chunkOsmChange(diff);
   const csIds: number[] = [];
 
@@ -45,9 +56,9 @@ export async function uploadChangeset(
     // if this is a chunk of an enourmous changeset, the tags
     // for each chunk get custom tags
     if (chunks.length > 1) {
-      if (options?.onChunk) {
+      if (onChunk) {
         // there is a custom implementation for tags.
-        tagsForChunk = options.onChunk({
+        tagsForChunk = onChunk({
           featureCount,
           changesetIndex: index,
           changesetTotal: chunks.length,
@@ -63,11 +74,11 @@ export async function uploadChangeset(
     tagsForChunk["created_by"] ||= `osm-api-js ${version}`;
 
     const csId = +(await osmFetch<string>("/0.6/changeset/create", undefined, {
-      ...options,
+      ...fetchOptions,
       method: "PUT",
       body: createChangesetMetaXml(tagsForChunk),
       headers: {
-        ...options?.headers,
+        ...fetchOptions.headers,
         "content-type": "application/xml; charset=utf-8",
       },
     }));
@@ -75,17 +86,17 @@ export async function uploadChangeset(
     const osmChangeXml = createOsmChangeXml(csId, chunk);
 
     await osmFetch(`/0.6/changeset/${csId}/upload`, undefined, {
-      ...options,
+      ...fetchOptions,
       method: "POST",
       body: osmChangeXml,
       headers: {
-        ...options?.headers,
+        ...fetchOptions.headers,
         "content-type": "application/xml; charset=utf-8",
       },
     });
 
     await osmFetch(`/0.6/changeset/${csId}/close`, undefined, {
-      ...options,
+      ...fetchOptions,
       method: "PUT",
     });
     csIds.push(csId);
