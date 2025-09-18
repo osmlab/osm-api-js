@@ -69,3 +69,21 @@ export type RawOsmChange = {
     },
   ];
 };
+
+/** @internal */
+export interface RawIdMap {
+  old_id: `${number}`;
+  new_id: `${number}`;
+  new_version: `${number}`;
+}
+
+/** @internal */
+export type RawUploadResponse = {
+  diffResult: [
+    {
+      [T in OsmFeatureType]?: { $: RawIdMap }[];
+    } & {
+      $: { generator: string; version: string };
+    },
+  ];
+};
