@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/taginfo/taginfo-projects/master/taginfo-project-schema.json",
+  "data_format": 1,
+  "data_url": "https://github.com/osmlab/osm-api-js/raw/main/taginfo.json",
+  "data_updated": "20250918T000000Z",
+  "project": {
+    "name": "osm-api-js",
+    "description": "Tags used by osm-api-js (A JavaScript library for interacting with the OSM API)",
+    "project_url": "https://github.com/osmlab/osm-api-js",
+    "doc_url": "https://github.com/osmlab/osm-api-js",
+    "icon_url": "https://avatars.githubusercontent.com/osmlab",
+    "contact_name": "Kyle Hensel",
+    "contact_email": "message @kylenz on OpenStreetMap"
+  },
+  "tags": [
+    {
+      "key": "chunk",
+      "description": "Added to changesets when uploading, if the changeset was so big that it had to be chunked (split) into multiple changesets."
+    }
+  ]
+}
