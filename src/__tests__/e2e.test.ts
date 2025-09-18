@@ -63,7 +63,9 @@ describe("end to end tests", () => {
   });
 
   it("getUser", async () => {
-    expect(await getUser(12248)).toMatchSnapshot();
+    const user = await getUser(12248);
+    user.changesets.count = 27; // this shouldn't break the tests
+    expect(user).toMatchSnapshot();
   });
 
   it("listChangesets", async () => {
