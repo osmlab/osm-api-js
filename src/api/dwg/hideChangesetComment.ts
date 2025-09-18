@@ -1,7 +1,5 @@
 import type { Changeset } from "../../types";
 import { type FetchOptions, osmFetch } from "../_osmFetch";
-import type { RawChangeset } from "../_rawResponse";
-import { mapRawChangeset } from "../changesets";
 
 /** DWG only */
 export async function hideChangesetComment(
@@ -9,10 +7,10 @@ export async function hideChangesetComment(
   action?: "hide" | "unhide",
   options?: FetchOptions
 ): Promise<Changeset> {
-  const result = await osmFetch<{ changeset: RawChangeset }>(
+  const result = await osmFetch<{ changeset: Changeset }>(
     `/0.6/changeset_comments/${changesetCommentId}/visibility.json`,
     {},
     { ...options, method: action === "unhide" ? "POST" : "DELETE" }
   );
-  return mapRawChangeset(result.changeset);
+  return result.changeset;
 }
