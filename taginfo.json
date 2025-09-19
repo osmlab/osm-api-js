@@ -14,8 +14,20 @@
   },
   "tags": [
     {
-      "key": "chunk",
-      "description": "Added to changesets when uploading, if the changeset was so big that it had to be chunked (split) into multiple changesets."
+      "key": "created_by",
+      "description": "[Discardable] Automatically removed from modified features"
+    },
+    {
+      "key": "fid",
+      "description": "[Discardable] Automatically removed from modified features"
+    },
+    {
+      "key": "import_uuid",
+      "description": "[Discardable] Automatically removed from modified features"
+    },
+    {
+      "key": "gnis:import_uuid",
+      "description": "[Discardable] Automatically removed from modified features"
     }
   ]
 }

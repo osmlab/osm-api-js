@@ -20,6 +20,13 @@ export function createChangesetMetaXml(tags: Tags) {
   });
 }
 
+const DISCARDABLE = new Set<string>([
+  "created_by",
+  "fid",
+  "import_uuid",
+  "gnis:import_uuid",
+]);
+
 const createGroup = (
   csId: number,
   features: OsmFeature[],
@@ -35,10 +42,12 @@ const createGroup = (
         $id: f.id,
         $version: type === "create" ? 0 : f.version,
         $changeset: csId,
-        tag: Object.entries(f.tags || {}).map(([$k, $v]) => ({
-          $k,
-          $v,
-        })),
+        tag: Object.entries(f.tags || {})
+          .filter(([key]) => !DISCARDABLE.has(key))
+          .map(([$k, $v]) => ({
+            $k,
+            $v,
+          })),
       };
       switch (f.type) {
         case "node": {

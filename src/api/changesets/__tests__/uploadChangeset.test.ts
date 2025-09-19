@@ -203,6 +203,7 @@ describe("uploadChangeset", () => {
         type: "relation",
         id: -300000,
         version: 1,
+        tags: { created_by: "JOSM" }, // will be removed before uploading
         members: [{ ref: -3, type: "way", role: "inner" }],
       },
       { ...JUNK, type: "node", id: -100, version: 1, lat: 0, lon: 0 },
