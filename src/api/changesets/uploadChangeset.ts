@@ -1,6 +1,7 @@
-import type { OsmChange, Tags } from "../../types";
+import type { OsmChange, OsmFeatureType, Tags } from "../../types";
 import { type FetchOptions, osmFetch } from "../_osmFetch";
 import { version } from "../../../package.json";
+import type { RawUploadResponse } from "../_rawResponse";
 import {
   createChangesetMetaXml,
   createOsmChangeXml,
@@ -18,6 +19,20 @@ export interface UploadChunkInfo {
 }
 
 export type UploadPhase = "upload" | "merge_conflicts";
+
+/** Can include multiple changeset IDs if the upload was chunked. */
+export interface UploadResult {
+  [changesetId: number]: {
+    diffResult: {
+      [Type in OsmFeatureType]?: {
+        [oldId: number]: {
+          newId: number;
+          newVersion: number;
+        };
+      };
+    };
+  };
+}
 
 /** @internal */
 export function compress(input: string) {
@@ -61,7 +76,7 @@ export async function uploadChangeset(
   tags: Tags,
   diff: OsmChange,
   options?: FetchOptions & UploadOptions
-): Promise<number> {
+): Promise<UploadResult> {
   const {
     onChunk,
     onProgress,
@@ -71,9 +86,9 @@ export async function uploadChangeset(
   } = options || {};
 
   const chunks = chunkOsmChange(diff);
-  const csIds: number[] = [];
-
   const featureCount = getOsmChangeSize(diff);
+
+  const result: UploadResult = {};
 
   for (const [index, chunk] of chunks.entries()) {
     let tagsForChunk = tags;
@@ -114,23 +129,41 @@ export async function uploadChangeset(
 
     const compressed = !disableCompression && (await compress(osmChangeXml));
 
-    await osmFetch(`/0.6/changeset/${csId}/upload`, undefined, {
-      ...fetchOptions,
-      method: "POST",
-      body: compressed || osmChangeXml,
-      headers: {
-        ...fetchOptions.headers,
-        ...(compressed && { "Content-Encoding": "gzip" }),
-        "content-type": "application/xml; charset=utf-8",
-      },
-    });
+    const idMap = await osmFetch<RawUploadResponse>(
+      `/0.6/changeset/${csId}/upload`,
+      undefined,
+      {
+        ...fetchOptions,
+        method: "POST",
+        body: compressed || osmChangeXml,
+        headers: {
+          ...fetchOptions.headers,
+          ...(compressed && { "Content-Encoding": "gzip" }),
+          "content-type": "application/xml; charset=utf-8",
+        },
+      }
+    );
+
+    // convert the XML format into a more concise JSON format
+    result[csId] = { diffResult: {} };
+    for (const _type in idMap.diffResult[0]) {
+      if (_type === "$") continue;
+      const type = <OsmFeatureType>_type;
+      const items = idMap.diffResult[0][type] || [];
+      for (const item of items) {
+        result[csId].diffResult[type] ||= {};
+        result[csId].diffResult[type][item.$.old_id] = {
+          newId: +item.$.new_id,
+          newVersion: +item.$.new_version,
+        };
+      }
+    }
 
     await osmFetch(`/0.6/changeset/${csId}/close`, undefined, {
       ...fetchOptions,
       method: "PUT",
     });
-    csIds.push(csId);
   }
 
-  return csIds[0]; // TODO:(semver breaking) return an array of IDs
+  return result;
 }
