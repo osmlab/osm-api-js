@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 3.3.1 (2025-11-21)
+
+- [uploadChangeset] fix tag values with linebreaks (`\n`) not handled properly
+
 ## 3.3.0 (2025-09-18)
 
 - [uploadChangeset] add an `onProgress` callback, so that apps can show a progress bar while uploading

@@ -7,6 +7,22 @@ const builder = new XMLBuilder({
   format: true,
   suppressEmptyNode: true,
   suppressBooleanAttributes: false,
+  // @ts-expect-error -- typedefs are wrong
+  entities: [
+    { regex: /&/g, val: "&amp;" },
+    { regex: />/g, val: "&gt;" },
+    { regex: /</g, val: "&lt;" },
+    { regex: /'/g, val: "&apos;" },
+    { regex: /"/g, val: "&quot;" },
+    { regex: /\t/g, val: "&#9;" },
+    { regex: /\n/g, val: "&#10;" },
+    { regex: /\r/g, val: "&#13;" },
+    // we need this because the library only defines a subset of
+    // the characters that need to be escaped. compare:
+    // https://github.com/NaturalIntelligence/fast-xml-parser/blob/e0769f/src/xmlbuilder/json2xml.js#L27-L31
+    // with
+    // https://github.com/jsdom/w3c-xmlserializer/blob/83115f/lib/attributes.js#L30-L36
+  ],
 });
 
 /** @internal */
