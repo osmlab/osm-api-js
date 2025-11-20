@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 4.0.0 (----------)
+
+- 💥 BREAKING CHANGE: `uploadChangeset` now returns a object instead of a single changeset ID. This is because:
+  1. the function supports chunking uploads into multiple changesets if it exceeds the limit of 10,000 features per changeset.
+  2. For each feature that was created, the response now includes a mapping between the temporary ID used by the uploader, and the permanent ID allocated by the server.
+- 💥 BREAKING CHANGE: The type defintions for `Changeset` have been changed to mark several properties as optional. (see [#14](https://github.com/osmlab/osm-api-js/issues/14))
+- 💥 BREAKING CHANGE: `Changeset.created_at`, `Changeset.closed_at`, and `ChangesetComment.date` are now a `string`, not a `Date`. This makes it more consistent with the XML format, and easier to serialise to JSON.
+- 💥 BREAKING CHANGE: `ChangesetComment.uid` is now a `number`, not a `string`. This matches the behaviour of OSM's new json API.
+- 💥 BREAKING CHANGE: `Changeset.discussion` has been renamed to `Changeset.comments`. This matches the behaviour of OSM's new json API.
+
 ## 3.3.0 (2025-09-18)
 
 - [uploadChangeset] add an `onProgress` callback, so that apps can show a progress bar while uploading

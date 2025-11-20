@@ -236,7 +236,7 @@ describe("uploadChangeset", () => {
       { comment: "added a building" },
       { create: [], modify: [], delete: [] }
     );
-    expect(output).toBe(1);
+    expect(output).toStrictEqual({ 1: { diffResult: {} } });
 
     expect(osmFetch).toHaveBeenCalledTimes(3);
     expect(osmFetch).toHaveBeenNthCalledWith(
@@ -277,7 +277,56 @@ describe("uploadChangeset", () => {
       );
     }
 
-    expect(output).toBe(1);
+    expect(output).toStrictEqual({
+      // create nodes first.
+      1: {
+        diffResult: {
+          node: {
+            "-10": { newId: 2, newVersion: 1 },
+            "-11": { newId: 1, newVersion: 1 },
+            "-2": { newId: 5, newVersion: 1 },
+            "-7": { newId: 6, newVersion: 1 },
+            "-8": { newId: 4, newVersion: 1 },
+            "-9": { newId: 3, newVersion: 1 },
+          },
+        },
+      },
+      // create nodes then ways then relations next
+      2: {
+        diffResult: {
+          node: {
+            "-100": { newId: 10, newVersion: 1 },
+            "-4": { newId: 9, newVersion: 1 },
+            "-5": { newId: 8, newVersion: 1 },
+            "-6": { newId: 7, newVersion: 1 },
+          },
+          relation: { "-300000": { newId: 1, newVersion: 1 } },
+          way: { "-3": { newId: 1, newVersion: 1 } },
+        },
+      },
+      // modify and delete next (any order)
+      3: {
+        diffResult: {
+          node: {
+            1: { newId: 1, newVersion: 2 },
+            2: { newId: 2, newVersion: 3 },
+          },
+          relation: {
+            2: { newId: 2, newVersion: 22 },
+            3: { newId: 3, newVersion: 2 },
+            4: { newId: 4, newVersion: 2 },
+          },
+          way: { 2: { newId: 2, newVersion: 2 } },
+        },
+      },
+      // delete last
+      4: {
+        diffResult: {
+          relation: { 1: { newId: 1, newVersion: 11 } },
+          way: { 1: { newId: 1, newVersion: 3 } },
+        },
+      },
+    });
   });
 
   it("splits changesets into chunks and suports a custom tag function", async () => {
@@ -311,7 +360,9 @@ describe("uploadChangeset", () => {
       );
     }
 
-    expect(output).toBe(1);
+    // don't need to assert the output, since it's the same
+    // as the previous test case.
+    expect(Object.keys(output).map(Number)).toStrictEqual([1, 2, 3, 4]);
   });
 
   // end of tests
