@@ -18,6 +18,8 @@ describe("_parseOsmChangeXml", () => {
         <modify>
           <way id="-2" version="0" changeset="123">
             <tag k="building" v="yes"/>
+            <tag k="inscription" v="a&#10;b&#13;&#10;c"/>
+            <tag k="surface" v="&lt; &amp; &quot; &apos; &gt; &#10; &#13; &#9;"/>
             <nd ref="10"/>
             <nd ref="11"/>
             <nd ref="12"/>
@@ -55,6 +57,8 @@ describe("_parseOsmChangeXml", () => {
           nodes: [10, 11, 12, 13, 10],
           tags: {
             building: "yes",
+            inscription: "a\nb\r\nc",
+            surface: "< & \" ' > \n \r \t",
           },
           timestamp: undefined,
           type: "way",
