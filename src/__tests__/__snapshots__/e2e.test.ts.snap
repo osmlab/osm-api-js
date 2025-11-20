@@ -500,6 +500,7 @@ exports[`end to end tests > getUser 1`] = `
   "display_name": "kylenz_testing",
   "id": 12248,
   "roles": [],
+  "social_links": [],
   "traces": {
     "count": 1,
   },

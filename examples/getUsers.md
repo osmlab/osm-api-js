@@ -28,6 +28,7 @@ Response:
     "display_name": "kylenz_testing",
     "id": 12248,
     "roles": [],
+    "social_links": [],
     "traces": {
       "count": 0
     }
