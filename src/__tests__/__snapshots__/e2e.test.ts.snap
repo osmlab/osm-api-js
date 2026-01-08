@@ -451,7 +451,7 @@ exports[`end to end tests > getNotesForQuery 1`] = `
       {
         "action": "opened",
         "date": "2024-01-24 06:33:43 UTC",
-        "html": "<p dir="auto">cycleway=no</p>",
+        "html": "<p dir="auto"><a href="https://wiki.openstreetmap.org/wiki/Tag:cycleway=no" rel="nofollow noopener noreferrer" dir="auto">cycleway=no</a></p>",
         "text": "cycleway=no",
         "uid": 12248,
         "user": "kylenz_testing",
