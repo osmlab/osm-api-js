@@ -530,6 +530,57 @@ exports[`end to end tests > getUserBlockById 1`] = `
 }
 `;
 
+exports[`end to end tests > getUsers 1`] = `
+[
+  {
+    "account_created": 2021-12-15T09:49:18.000Z,
+    "blocks": {
+      "received": {
+        "active": 0,
+        "count": 0,
+      },
+    },
+    "changesets": {
+      "count": 27,
+    },
+    "contributor_terms": {
+      "agreed": true,
+    },
+    "description": "",
+    "display_name": "kylenz_testing",
+    "id": 12248,
+    "roles": [],
+    "social_links": [],
+    "traces": {
+      "count": 1,
+    },
+  },
+  {
+    "account_created": 2021-12-15T04:54:13.000Z,
+    "blocks": {
+      "received": {
+        "active": 0,
+        "count": 0,
+      },
+    },
+    "changesets": {
+      "count": 0,
+    },
+    "contributor_terms": {
+      "agreed": true,
+    },
+    "description": "",
+    "display_name": "Mgendy00",
+    "id": 12247,
+    "roles": [],
+    "social_links": [],
+    "traces": {
+      "count": 0,
+    },
+  },
+]
+`;
+
 exports[`end to end tests > listChangesets 1`] = `
 [
   {

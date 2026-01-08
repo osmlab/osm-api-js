@@ -14,6 +14,7 @@ import {
   getUIdFromDisplayName,
   getUser,
   getUserBlockById,
+  getUsers,
   listChangesets,
   listMessages,
 } from "..";
@@ -66,6 +67,12 @@ describe("end to end tests", () => {
     const user = await getUser(12248);
     user.changesets.count = 27; // this shouldn't break the tests
     expect(user).toMatchSnapshot();
+  });
+
+  it("getUsers", async () => {
+    const users = await getUsers([12248, 12247]);
+    users[0].changesets.count = 27; // this shouldn't break the tests
+    expect(users).toMatchSnapshot();
   });
 
   it("listChangesets", async () => {

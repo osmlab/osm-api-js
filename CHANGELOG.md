@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 3.3.2 (2026-01-08)
+
+- [getUsers] add type definitions for `social_links`, also switch to the JSON API
+
 ## 3.3.1 (2025-11-21)
 
 - [uploadChangeset] fix tag values with linebreaks (`\n`) not handled properly

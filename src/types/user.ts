@@ -5,6 +5,7 @@ export type OsmUser = {
   display_name: string;
   account_created: Date;
   description: string;
+  social_links?: { url: string; platform: string }[];
   contributor_terms: { agreed: boolean; pd: boolean };
   /** may be undefined if the user has no profile photo */
   img?: { href: string };

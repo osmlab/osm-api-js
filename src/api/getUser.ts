@@ -30,13 +30,13 @@ export async function getUsers(
   users: number[],
   options?: FetchOptions
 ): Promise<OsmUser[]> {
-  const raw = await osmFetch<{ users: OsmUser[] }>(
-    "/0.6/users",
+  const raw = await osmFetch<{ users: { user: OsmUser }[] }>(
+    "/0.6/users.json",
     { users },
     options
   );
 
-  return raw.users.map((u) => ({
+  return raw.users.map(({ user: u }) => ({
     ...u,
     account_created: new Date(u.account_created),
   }));
