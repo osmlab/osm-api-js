@@ -1,6 +1,14 @@
 name: Build and Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+permissions:
+  contents: read
+  id-token: write
 
 jobs:
   build:
@@ -10,7 +18,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x, 24.x]
+        node-version:
+          - { v: 18 }
+          - { v: 20 }
+          - { v: 22 }
+          - { v: 24, isLatest: yes }
 
     steps:
       - name: ⏬ Checkout code
@@ -19,7 +31,7 @@ jobs:
       - name: 🔢 Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: ${{ matrix.node-version.v }}
 
       - name: ⏬ Install
         run: |
@@ -45,10 +57,5 @@ jobs:
       #     github-token: ${{ secrets.github_token }}
 
       - name: 📦 Publish
-        if: ${{ github.ref == 'refs/heads/main' && matrix['node-version'] == '20.x' }}
-        run: |
-          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
-          npm run trypublish
-        env:
-          CI: true
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        uses: k-yle/npm-publish@v1
+        if: ${{ matrix.node-version.isLatest }}
