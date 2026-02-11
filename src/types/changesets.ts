@@ -19,6 +19,9 @@ export type Changeset = {
   open: boolean;
   comments_count: number;
   changes_count: number;
+  created_count: number;
+  modified_count: number;
+  deleted_count: number;
   /** property only exists if `open=false` */
   // TODO:(semver breaking) mark as optional
   closed_at: Date;

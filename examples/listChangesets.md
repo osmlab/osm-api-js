@@ -15,6 +15,9 @@ Response:
 [
   {
     "changes_count": 10,
+    "created_count": 7,
+    "modified_count": 2,
+    "deleted_count": 1,
     "closed_at": "2022-09-10T11:30:13.000Z",
     "comments_count": 0,
     "created_at": "2022-09-10T11:30:12.000Z",
