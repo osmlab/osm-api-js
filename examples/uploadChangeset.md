@@ -26,11 +26,16 @@ await uploadChangeset(
 
 Response:
 
-```json
-12345
+```jsonc
+{
+  // 12345 is the changeset number
+  "12345": {
+    // the contents of this object is the diff result.
+    // - for created features, this object allows you to map the temporary ID used by the uploader, to the permananet ID that the server allocated to this feature.
+    // - for updated & deleted features, it includes the new version number
+  },
+}
 ```
-
-(changeset number)
 
 ## Detailed Examples
 
