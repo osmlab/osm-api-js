@@ -71,8 +71,9 @@ export const authReady: Promise<void> = (async () => {
   if (typeof window === "undefined") return; // running in nodejs
   const fullUrl = window.location.href;
   const loginState = localStorage.getItem("__osmAuthTemp");
+  const url = new URL(fullUrl);
 
-  if (new URL(fullUrl).searchParams.get("code")) {
+  if (url.searchParams.get("code")) {
     if (loginState) {
       try {
         const transaction: Transaction = JSON.parse(loginState);
@@ -81,6 +82,10 @@ export const authReady: Promise<void> = (async () => {
       } catch (ex) {
         console.error("OSM Auth Error", ex);
       }
+      // delete the oauth params from the URL
+      url.searchParams.delete("code");
+      url.searchParams.delete("state");
+      window.history.replaceState(window.history.state, "", url);
     } else {
       // there is ?code= in the URL, but there is no login in progress...
     }
