@@ -78,6 +78,12 @@ export const authReady: Promise<void> = (async () => {
         const transaction: Transaction = JSON.parse(loginState);
         await exchangeCode(fullUrl, transaction);
         localStorage.removeItem("__osmAuthTemp");
+
+        // delete the oauth params from the URL
+        const url = new URL(fullUrl);
+        url.searchParams.delete("code");
+        url.searchParams.delete("state");
+        window.history.replaceState(window.history.state, "", url);
       } catch (ex) {
         console.error("OSM Auth Error", ex);
       }
