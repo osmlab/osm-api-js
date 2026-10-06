@@ -97,7 +97,9 @@ describe("end to end tests", () => {
   });
 
   it("getNotesForQuery", async () => {
-    expect(await getNotesForQuery({ q: "cycleway" })).toMatchSnapshot();
+    expect(
+      await getNotesForQuery({ q: "cycleway", bbox: [174, -37, 175, -36] })
+    ).toMatchSnapshot();
   });
 
   it("getUserBlockById", async () => {
