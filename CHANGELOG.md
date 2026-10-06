@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 4.0.1 (2026-10-06)
+
+- [authReady] automatically delete OAuth params from the URL when login `mode=redirect`
+
 ## 4.0.0 (2026-02-11)
 
 - 💥 BREAKING CHANGE: `uploadChangeset` now returns a object instead of a single changeset ID. This is because:
